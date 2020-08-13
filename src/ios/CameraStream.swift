@@ -11,14 +11,14 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
     @objc(startCapture:)
     func startCapture(command: CDVInvokedUrlCommand) {
         // Selecting the camera from the device
-        let cameraString = "front" // command.arguments[0] as? String ?? "front"
+        let cameraString = command.arguments[0] as? String ?? "front"
         var camera: AVCaptureDevice
 
         switch cameraString {
         case "back":
             camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .back)!
         default:
-        camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front)!
+            camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front)!
         }
 
         var error: NSError?
@@ -106,9 +106,9 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
             case .portrait:
                 image = UIImage(cgImage: quartzImage!, scale: 1.0, orientation: .right)
             case .landscapeRight:
-                image = UIImage(cgImage: quartzImage!, scale: 1.0, orientation: .up)
-            case .landscapeLeft:
                 image = UIImage(cgImage: quartzImage!, scale: 1.0, orientation: .down)
+            case .landscapeLeft:
+                image = UIImage(cgImage: quartzImage!, scale: 1.0, orientation: .up)
             case .portraitUpsideDown:
                 image = UIImage(cgImage: quartzImage!, scale: 1.0, orientation: .left)
             default:
@@ -125,4 +125,3 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
 }
-
